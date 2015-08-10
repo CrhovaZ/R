@@ -5,7 +5,7 @@ best <- function(state, outcome) {
 	data <- read.csv ("D:/user/Desktop/Programming Assignment 3/outcome-of-care-measures.csv")
 	## Přejmenovala jsem potřebné sloupce, aby se s nimi jednodušeji pracovalo..
 	colnames(data)[11] <- "heart.attack"  # blank space might cause problems
-	colnames(data)[17] <- "heart.failure" #  the same
+	colnames(data)[17] <- "heart.failure" # the same problem
 	colnames(data)[23] <- "pneumonia"
 	## Vytvořila jsem subset, obsahuje data zadaného státu
 	subset.state <- subset(data, State==state)
