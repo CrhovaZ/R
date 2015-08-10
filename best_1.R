@@ -1,36 +1,38 @@
-## Ãškolem je napsat funkci, kterÃ¡ vybere nejlepÅ¡Ã­ nemocnici v zadanÃ©m stÃ¡tÄ› 
-## podle nejniÅ¾Å¡Ã­ Ãºmrtnosti pacientÅ¯ na zadanou komplikaci.
+## Úkolem je napsat funkci, která vybere nejlepší nemocnici v zadaném státì 
+## podle nejniší úmrtnosti pacientù na zadanou komplikaci.
 best <- function(state, outcome) {
 	## Read outcome data
-	data <- read.csv ("D:/user/Desktop/Programming Assignment 3/outcome-of-care-measures.csv")
-	## PÅ™ejmenovala jsem potÅ™ebnÃ© sloupce, aby se s nimi jednoduÅ¡eji pracovalo..
-	colnames(data)[11] <- "heart.attack"  # blank space might cause problems
-	colnames(data)[17] <- "heart.failure" # the same problem
+# data <- read.csv ("D:/user/Desktop/Programming Assignment 3/outcome-of-care-measures.csv")
+data <- read.csv ("outcome-of-care-measures.csv")
+	## Pøejmenovala jsem potøebné sloupce, aby se s nimi jednodušeji pracovalo..
+	colnames(data)[11] <- "heart attack"  # blank space might cause problems
+	colnames(data)[17] <- "heart failure" # the same problem
 	colnames(data)[23] <- "pneumonia"
-	## VytvoÅ™ila jsem subset, obsahuje data zadanÃ©ho stÃ¡tu
-	subset.state <- subset(data, State==state, c(heart.attack)) ## I can subset certain column but I need to replace it with "outcome"
-	## Tady mi to pÅ™estÃ¡vÃ¡ fungovat... VyuÅ¾ila jsem rady z diskuznÃ­ho fÃ³ra a zkusila pÅ™evÃ©st data 
-	## na numerickÃ¡ a nÃ¡slednÄ› je seÅ™adit, ale nefunguje to...
-	numeric.data <- as.numeric(as.character(subset.state)) ## this is still not working
-	ordered <- numeric.data[order("heart attack"),]
-	## Check that state and outcome are valid
+	## Vytvoøila jsem subset, obsahuje data zadaného státu
+
 	if (!is.element(state, data$State)){
 	 stop("invalid state")
 	}
-	## Podle vÅ¡eho, by pÅ™edchozÃ­ funkce mÄ›la fungovat
-	## ale pÅ™i kontrole outcome mi poÅ™Ã¡d vyskakuje "invalid outcome",
-	## i kdyÅ¾ je zadÃ¡n sprÃ¡vnÄ›. Zkusila jsem to zadat tÅ™emi zpÅ¯soby:
-	if (outcome != "heart attack" | outcome != "heart failure" | outcome != "pneumonia") {stop("invalide outcome")}
-	##if (outcome != "heart attack") {
-	##	stop("invalid outcome")
-	##}else if (outcome != "heart failure") {
-	##	stop("invalid outcome")
-	##}else if (outcome != "pneumonia"){
-	##	stop("invalid outcome")
-	##}
-	##condition <- c("heart attack","heart failure","pneumonia")
-	##condition <- levels(condition)
-	##if(!outcome %in% condition){stop("invalid outcome")}
-	## Return hospital name in that state with lowest 30-day death
-	## rate
+
+	condition <- c("heart attack","heart failure","pneumonia")
+	if (max(as.numeric(condition %in% outcome)) == 0){
+	 stop("invalid outcome")
+	}
+
+	subset.state <- subset(data, State==state, c(outcome, "Hospital.Name") ) ## I can subset certain column but I need to replace it with "outcome"
+	## Tady mi to pøestává fungovat... Vyuila jsem rady z diskuzního fóra a zkusila pøevést data 
+	## na numerická a následnì je seøadit, ale nefunguje to...
+ numeric.data <- suppressWarnings( data.frame(
+ outcome = as.numeric(as.character(subset.state[ ,1])), 
+ Hospital.Name = subset.state$Hospital.Name ) )
+
+ foo <- as.character(numeric.data[which.min(numeric.data[ ,1]), 2])
+ foo
 }
+
+
+
+
+
+
+
