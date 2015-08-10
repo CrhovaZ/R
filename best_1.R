@@ -8,10 +8,10 @@ best <- function(state, outcome) {
 	colnames(data)[17] <- "heart.failure" # the same problem
 	colnames(data)[23] <- "pneumonia"
 	## Vytvořila jsem subset, obsahuje data zadaného státu
-	subset.state <- subset(data, State==state)
+	subset.state <- subset(data, State==state, c(heart.attack)) ## I can subset certain column but I need to replace it with "outcome"
 	## Tady mi to přestává fungovat... Využila jsem rady z diskuzního fóra a zkusila převést data 
 	## na numerická a následně je seřadit, ale nefunguje to...
-	numeric.data <- as.numeric(as.character(subset.state))
+	numeric.data <- as.numeric(as.character(subset.state)) ## this is still not working
 	ordered <- numeric.data[order("heart attack"),]
 	## Check that state and outcome are valid
 	if (!is.element(state, data$State)){
