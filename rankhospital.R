@@ -1,6 +1,8 @@
 rankhospital <- function(state, outcome, num = "best") {
 	## Read outcome data - the same as best.R
-	data <- read.csv ("D:/user/Desktop/Programming Assignment 3/outcome-of-care-measures.csv")
+	#data <- read.csv ("D:/user/Desktop/Programming Assignment 3/outcome-of-care-measures.csv")
+data <- read.csv ("outcome-of-care-measures.csv")
+
 	colnames(data)[11] <- "heart attack"  # blank space might cause problems
 	colnames(data)[17] <- "heart failure" # the same problem
 	colnames(data)[23] <- "pneumonia"
@@ -22,11 +24,9 @@ rankhospital <- function(state, outcome, num = "best") {
 	## and rank of the mortality rate. I have troubles when I want to exclude NA values.
 	## Number of rows differs.
 	ranked.data <- data.frame(Hospital.Name = numeric.data$Hospital.Name, 
-	rate = numeric.data[ ,1], rank = rank(numeric.data[ ,1], ties.method= "first", na.last = NA))
+	rate = numeric.data[ ,1], rank = rank(numeric.data[ ,1], ties.method= "first")) #, na.last = NA))
 	## This function order the ranked.data. I need to order data in alphabetical
 	## order based on hospital name.	
-	ordered <- ranked.data[order(ranked.data$rank) , ]
+	ordered <- ranked.data[order(ranked.data$rate, ranked.data$Hospital.Name), ]
+	ordered	
 }
-
-
-
